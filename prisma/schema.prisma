@@ -14,7 +14,7 @@ model Notes {
   id        Int      @id @default(autoincrement())
   title     String
   content   String
-  status    Boolean  @default(true)
+  status    Boolean? @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
