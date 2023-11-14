@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  NotFoundException,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { CreateNoteDto } from './dto/create-note.dto';
@@ -38,8 +39,10 @@ export class NotesController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.notesService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const note = await this.notesService.findOne(id);
+    if (!note) throw new NotFoundException(`Note with ${id} does not exist.`);
+    return note;
   }
 
   @Patch(':id')
